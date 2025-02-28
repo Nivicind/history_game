@@ -28,6 +28,13 @@ public class PlayerMovement : MonoBehaviour
     public float _jumpBufferTime = 0.2f; // How long the jump input is stored
     private float _jumpBufferCounter; // Timer for jump buffering
 
+    [Header("Ledge Grab")]
+    [SerializeField] private Transform _frontLedgeGrab;
+    [SerializeField] private Transform _backLedgeGrab;
+    [SerializeField] private Vector2 _ledgeCheckSize = new Vector2(0.5f, 0.5f);
+    private bool _isGrabbingLedge = false;
+    private Vector2 _ledgePosition;
+
     [Header("State Variables")]
     private bool _isMoving;
     private bool _isJumping;
@@ -121,7 +128,6 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        // Apply horizontal movement
         RB.velocity = new Vector2(_moveInput.x * moveSpeed, RB.velocity.y);
     }
 
