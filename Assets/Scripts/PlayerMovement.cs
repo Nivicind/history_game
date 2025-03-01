@@ -33,23 +33,61 @@ public class PlayerMovement : MonoBehaviour
     private bool _isJumping;
     private bool _isFalling;
 
+    public bool ClimbingAllowed { get; set; }
+    private float dirX, dirY;
+
     void Start()
     {
         RB = GetComponent<Rigidbody2D>();
     }
 
+
+    float slowdown(float moveSpeed)
+    {
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            moveSpeed = 3f;
+        }
+
+        if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            moveSpeed = 5f;
+        }
+        return moveSpeed;
+    }
+
     void Update()
     {
+        moveSpeed =  slowdown(moveSpeed);
         HandleInput();
         HandleJumpBuffering();
         HandleCoyoteTime();
         HandleJumpExecution();
         HandleFallingState();
+
+        dirX = Input.GetAxisRaw("Horizontal") * moveSpeed;
+
+        if (ClimbingAllowed)
+        {
+            dirY = Input.GetAxisRaw("Vertical") * moveSpeed;
+        }
     }
+
+
 
     void FixedUpdate()
     {
         MovePlayer();
+        if (ClimbingAllowed)
+        {
+            RB.isKinematic = true;
+            RB.velocity = new Vector2(dirX, dirY);
+        }
+        else
+        {
+            RB.isKinematic = false;
+            RB.velocity = new Vector2(dirX, RB.velocity.y);
+        }
     }
 
     private void HandleInput()
@@ -90,6 +128,7 @@ public class PlayerMovement : MonoBehaviour
         {
             Jump();
             _jumpBufferCounter = 0; // Reset jump buffer after jumping
+
         }
     }
 
@@ -99,16 +138,21 @@ public class PlayerMovement : MonoBehaviour
         {
             _isFalling = true;
             _isJumping = false;
+            playerVariables.isJumping = false;
+
         }
         else if (RB.velocity.y > 0.1f)
         {
             _isFalling = false;
             _isJumping = true;
+            playerVariables.isJumping = true;
+
         }
         else
         {
             _isFalling = false;
             _isJumping = false;
+
         }
     }
 
