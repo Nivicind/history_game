@@ -3,73 +3,44 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-
 public class PlayerCrouch : MonoBehaviour
 {
+    [Header("Player Components")]
+    public Rigidbody2D Player;
+    public CapsuleCollider2D PlayerCollider;
 
-    public Rigidbody2D Me;
+    [Header("Player Sprites")]
+    public Sprite StandingSprite;
+    public Sprite CrouchingSprite;
 
-    //public SpriteRenderer SpriteRenderer;
-
-    public Sprite Standing;
-    public Sprite Crouching;
-
-    public CapsuleCollider2D Collider;
-
-
+    [Header("Collider Sizes")]
     public Vector2 StandingSize;
     public Vector2 CrouchingSize;
 
+    [Header("Collider Offsets")]
+    public Vector2 StandingOffset;
+    public Vector2 CrouchingOffset;
 
-
-
-
-
-    // Start is called before the first frame update
     void Start()
     {
-        Me = GetComponent<Rigidbody2D>();
-        Collider = GetComponent<CapsuleCollider2D>();
+        Player = GetComponent<Rigidbody2D>();
+        PlayerCollider = GetComponent<CapsuleCollider2D>();
 
-        Collider.size = StandingSize;
-
-        //SpriteRenderer = GetComponent<SpriteRenderer>();
-        //SpriteRenderer.sprite = Standing;
-
-
-
-
-
+        PlayerCollider.size = StandingSize;
+        PlayerCollider.offset = StandingOffset;
     }
-
-    // Update is called once per frame
     void Update()
     {
-        //MovementX = Input.GetAxisRaw("Horizontal");
-        //MovementY = Input.GetAxisRaw("Vertical");
-
-        //Me.velocity = new Vector2(MovementX * Time.deltaTime * speed, MovementY * Time.deltaTime * speed);
-
-
         if (Input.GetKeyDown(KeyCode.C))
         {
-            //SpriteRenderer.sprite = Crouching;
-
-            Collider.size = CrouchingSize;
-
+            PlayerCollider.size = CrouchingSize;
+            PlayerCollider.offset = CrouchingOffset;
         }
 
         if (Input.GetKeyUp(KeyCode.C))
         {
-            //SpriteRenderer.sprite = Standing;
-
-            Collider.size = StandingSize;
-
+            PlayerCollider.size = StandingSize;
+            PlayerCollider.offset = StandingOffset;
         }
-
     }
-
-
-
-
 }

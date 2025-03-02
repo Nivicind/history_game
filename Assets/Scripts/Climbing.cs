@@ -3,63 +3,89 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+/// <summary>
+/// Handles player climbing mechanics using detection boxes.
+/// The ledge check flips based on player direction, so only one set is needed.
+/// </summary>
 public class Climbing : MonoBehaviour
 {
-    public bool greenBox, redBox;
-    public float redXOffset, redYOffSet, redXSize, redYSize, greenXOffset, greenYOffset, greenXsize, greenYSize;
-    public Rigidbody2D rb;
-    public float startingGrav;
-    public LayerMask groundMask;
+    [Header("Ledge Detection")]
+    public Transform LedgeCheckBelow;  // Detects if there is ground below
+    public Transform LedgeCheckAbove;  // Detects if the ledge is climbable
+    public Vector2 LedgeBelowSize;
+    public Vector2 LedgeAboveSize;
 
-    // Start is called before the first frame update
+    [Header("Player Components")]
+    public Rigidbody2D rb;
+    private float startingGrav;
+
+    [Header("Climbing Settings")]
+    public LayerMask groundMask;
+    private bool isClimbing;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         startingGrav = rb.gravityScale;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        greenBox = Physics2D.OverlapBox(new Vector2(transform.position.x + (greenXOffset * transform.localScale.x), transform.position.y + greenYOffset), new Vector2(greenXsize, greenYSize), 0f, groundMask);
-        redBox = Physics2D.OverlapBox(new Vector2(transform.position.x + (redXOffset * transform.localScale.x), transform.position.y + redYOffSet), new Vector2(redXSize, redYSize), 0f, groundMask);
+        bool belowCheck = Physics2D.OverlapBox(LedgeCheckBelow.position, LedgeBelowSize, 0f, groundMask);
+        bool aboveCheck = Physics2D.OverlapBox(LedgeCheckAbove.position, LedgeAboveSize, 0f, groundMask);
 
-        if (greenBox && !redBox && !playerVariables.isGrabbing)
+        // Start climbing if below check detects ground and above check is empty
+        if (belowCheck && !aboveCheck && !playerVariables.isGrabbing)
         {
             playerVariables.isGrabbing = true;
+            isClimbing = true;
         }
 
         if (playerVariables.isGrabbing)
         {
-            rb.velocity = new Vector2(0f, 0f);
+            rb.velocity = Vector2.zero;
             rb.gravityScale = 0f;
         }
 
-        // Gọi ChangePos khi người chơi nhấn Space và đang bám
+        // Climb when pressing Space
         if (playerVariables.isGrabbing && Input.GetKeyDown(KeyCode.Space))
         {
-            ChangePos();
+            Climb();
         }
 
-        // Tự động ngừng bám nếu không còn ở vị trí hợp lệ
-        if (playerVariables.isGrabbing && (!greenBox || !redBox))
+        // Stop grabbing if no longer in a valid position
+        if (playerVariables.isGrabbing && !belowCheck)
         {
-            ChangePos();
+            Climb();
         }
     }
 
-    public void ChangePos()
+    /// <summary>
+    /// Moves the player up and restores gravity.
+    /// </summary>
+    public void Climb()
     {
         transform.position = new Vector2(transform.position.x + (0.52f * transform.localScale.x), transform.position.y + 0.6f);
         rb.gravityScale = startingGrav;
         playerVariables.isGrabbing = false;
+        isClimbing = false;
     }
 
-    public void OnDrawGizmosSelected()
+    /// <summary>
+    /// Draws Gizmos for visualization in the Unity Editor.
+    /// </summary>
+    void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(new Vector2(transform.position.x + (redXOffset * transform.localScale.x), transform.position.y + redYOffSet), new Vector2(redXSize, redYSize));
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireCube(new Vector2(transform.position.x + (greenXOffset * transform.localScale.x), transform.position.y + greenYOffset), new Vector2(greenXsize, greenYSize));
+        if (LedgeCheckBelow != null)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireCube(LedgeCheckBelow.position, LedgeBelowSize);
+        }
+
+        if (LedgeCheckAbove != null)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireCube(LedgeCheckAbove.position, LedgeAboveSize);
+        }
     }
 }

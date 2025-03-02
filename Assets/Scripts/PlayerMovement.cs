@@ -73,8 +73,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-
-
     void FixedUpdate()
     {
         MovePlayer();
@@ -131,7 +129,6 @@ public class PlayerMovement : MonoBehaviour
 
         }
     }
-
     private void HandleFallingState()
     {
         if (RB.velocity.y < -0.1f) // Slight threshold to prevent premature falling state
