@@ -1,34 +1,34 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class TEST_CounterWeightLift : MonoBehaviour
+public class CounterweightLift : MonoBehaviour
 {
-    public Rigidbody2D platformA; // First platform
-    public Rigidbody2D platformB; // Second platform (counterweight)
-    public float liftSpeed = 5f;  // Speed of movement
-    public float maxHeight = 5f;  // Max movement range
-    public float minHeight = -5f; // Min movement range
+    private HingeJoint2D hinge;
+    private bool isSpinning = false;
 
-    private void FixedUpdate()
+    void Start()
     {
-        // Move platform A up and platform B down when A is lighter
-        if (platformA.position.y < maxHeight && platformB.position.y > minHeight)
+        hinge = GetComponent<HingeJoint2D>();
+        hinge.useMotor = false;  // Initially not spinning
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
         {
-            platformA.velocity = new Vector2(0, liftSpeed);
-            platformB.velocity = new Vector2(0, -liftSpeed);
+            StartSpinning();
         }
-        // Move platform A down and platform B up when A is heavier
-        else if (platformA.position.y > minHeight && platformB.position.y < maxHeight)
+    }
+
+    void StartSpinning()
+    {
+        if (!isSpinning)
         {
-            platformA.velocity = new Vector2(0, -liftSpeed);
-            platformB.velocity = new Vector2(0, liftSpeed);
-        }
-        else
-        {
-            // Stop movement if limits are reached
-            platformA.velocity = Vector2.zero;
-            platformB.velocity = Vector2.zero;
+            JointMotor2D motor = hinge.motor;
+            motor.motorSpeed = 200f;  // Adjust speed (negative for opposite direction)
+            motor.maxMotorTorque = 1000f;
+            hinge.motor = motor;
+            hinge.useMotor = true;
+            isSpinning = true;
         }
     }
 }
