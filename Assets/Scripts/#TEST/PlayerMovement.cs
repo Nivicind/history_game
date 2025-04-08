@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class TEST_PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     public float speed = 5f;
     public float crouchSpeed = 2f;
@@ -12,8 +12,8 @@ public class TEST_PlayerMovement : MonoBehaviour
     public Sprite standingSprite, crouchingSprite;
     public Animator animator;
 
-    public Vector2 crouchingSize; // Now public, adjustable in Unity
-    public Vector2 crouchingOffset; // Now public, adjustable in Unity
+    public Vector2 crouchingSize;
+    public Vector2 crouchingOffset;
 
     private Vector2 standingSize;
     private Vector2 standingOffset;
