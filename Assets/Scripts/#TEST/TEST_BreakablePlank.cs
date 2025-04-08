@@ -25,7 +25,8 @@ public class TEST_BreakablePlank : MonoBehaviour
             // Check if the box is actually falling
             if (boxRb != null && boxRb.velocity.y < fallThreshold)
             {
-                objCollider.enabled = false; // Disable collider
+                // objCollider.enabled = false; // Disable collider
+                gameObject.SetActive(false); // Deactivate the plank
             }
         }
     }
