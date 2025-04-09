@@ -22,13 +22,15 @@ public class PlayerMovement : MonoBehaviour
     public Animator animator;
 
     [Header("Crouching Settings")]
-    public Vector2 crouchingSize;
     public Vector2 crouchingOffset;
+    public Vector2 crouchingSize;
 
-    private Vector2 standingSize;
     private Vector2 standingOffset;
+    private Vector2 standingSize;
 
     private Rigidbody2D rb;
+    private PlayerPushBoxes boxHandler;
+
     private bool isGrounded;
     private bool isCrouching = false;
     private bool isMoving;
@@ -40,6 +42,7 @@ public class PlayerMovement : MonoBehaviour
         standingSize = playerCollider.size;
         standingOffset = playerCollider.offset;
         animator = GetComponent<Animator>();
+        boxHandler = GetComponent<PlayerPushBoxes>();
     }
 
     void Update()
@@ -82,7 +85,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Jump()
     {
-        if (Input.GetButtonDown("Jump") && isGrounded && !isCrouching)
+        if (Input.GetButtonDown("Jump") && isGrounded && !isCrouching && !boxHandler.isDraggingBox)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             isGrounded = false;
