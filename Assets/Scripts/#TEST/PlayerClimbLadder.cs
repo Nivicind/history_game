@@ -39,7 +39,7 @@ public class PlayerClimbLadder : MonoBehaviour
             rb.gravityScale = normalGravity; // Restore gravity when not climbing
         }
     }
-
+    
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Ladder"))

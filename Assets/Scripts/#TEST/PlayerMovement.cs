@@ -2,16 +2,26 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [Header("Movement Settings")]
     public float speed = 5f;
     public float crouchSpeed = 2f;
     public float jumpForce = 10f;
+
+    [Header("Ground Check")]
     public Transform groundCheck;
     public LayerMask groundLayer;
+
+    [Header("Player Collider")]
     public CapsuleCollider2D playerCollider;
+
+    [Header("Sprites")]
     public SpriteRenderer spriteRenderer;
     public Sprite standingSprite, crouchingSprite;
+
+    [Header("Animator")]
     public Animator animator;
 
+    [Header("Crouching Settings")]
     public Vector2 crouchingSize;
     public Vector2 crouchingOffset;
 
@@ -20,11 +30,9 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody2D rb;
     private bool isGrounded;
-    private bool isCrouching;
+    private bool isCrouching = false;
     private bool isMoving;
     private bool isJumping;
-
-    
 
     void Start()
     {
@@ -40,8 +48,9 @@ public class PlayerMovement : MonoBehaviour
         Move();
         Jump();
         Crouch();
+        animator.SetBool("isJumping", !isGrounded);
     }
-    
+
     void CheckGrounded()
     {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.1f, groundLayer);
@@ -52,35 +61,38 @@ public class PlayerMovement : MonoBehaviour
         float moveInput = Input.GetAxisRaw("Horizontal");
         float moveSpeed = isCrouching ? crouchSpeed : speed;
         rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
-        
+
         isMoving = moveInput != 0;
-        animator.SetFloat("xVelocity", Mathf.Abs(rb.velocity.x));
-        animator.SetFloat("yVelocity", rb.velocity.y);
-        // if (moveInput != 0)
-        // {
-        //     animator.SetBool("isRunning", true);
-        // }
-        // else
-        // {
-        //     animator.SetBool("isRunning", true);
-        // }
+
+        if (moveInput != 0)
+        {
+            animator.SetBool("isRunning", true);
+
+            // Flip the character based on move direction
+            if (moveInput < 0)
+                transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z);
+            else if (moveInput > 0)
+                transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
+        }
+        else
+        {
+            animator.SetBool("isRunning", false);
+        }
     }
-    
+
     void Jump()
     {
         if (Input.GetButtonDown("Jump") && isGrounded && !isCrouching)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             isGrounded = false;
-            animator.SetBool("isJumping", !isGrounded);
-            
         }
         else if (isGrounded)
         {
             isJumping = false;
         }
     }
-    
+
     void Crouch()
     {
         if (Input.GetKey(KeyCode.C) && isGrounded)
@@ -97,13 +109,5 @@ public class PlayerMovement : MonoBehaviour
             playerCollider.offset = standingOffset;
             spriteRenderer.sprite = standingSprite;
         }
-    }
-
-
-
-
-    private void OnTriggerEnter2D(Collider2D collision){
-        isGrounded = true;
-        animator.SetBool("isJumping", !isGrounded);
     }
 }
