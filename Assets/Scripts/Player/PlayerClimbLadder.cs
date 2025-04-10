@@ -6,10 +6,11 @@ public class PlayerClimbLadder : MonoBehaviour
     [SerializeField] private float climbSpeed = 8f;
     [SerializeField] private float normalGravity = 2f;
     [SerializeField] private Rigidbody2D rb;
+    public Animator animator;
 
     private float vertical;
     private bool isLadder;
-    private bool isClimbing;
+    public bool isClimbing;
 
     void Update()
     {
@@ -25,6 +26,9 @@ public class PlayerClimbLadder : MonoBehaviour
         {
             isClimbing = false;
         }
+
+        ClimbLadderAnimationHandler();
+        Debug.Log("isClimbing: " + isClimbing);
     }
 
     private void FixedUpdate()
@@ -54,6 +58,13 @@ public class PlayerClimbLadder : MonoBehaviour
         {
             isLadder = false;
             isClimbing = false; // Stop climbing when leaving ladder
+        }
+    }
+
+    void ClimbLadderAnimationHandler(){
+        if (animator != null)
+        {
+            animator.SetBool("isClimbLadder", isClimbing);
         }
     }
 }

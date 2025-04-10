@@ -23,8 +23,7 @@ public class PlayerPushBoxes : MonoBehaviour
 
         UpdateBoxVisual();
         HandleAttachOrDetach();
-        PushPullAnimationHandler();
-        Debug.Log("isAttached: " + isAttached);
+        PushPullAnimationHandler();        
     }
 
     void CheckForBox()

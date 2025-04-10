@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement Settings")]
-    public float speed = 5f;
+    public float walkSpeed = 5f;
     public float crouchSpeed = 2f;
     public float jumpForce = 10f;
 
@@ -35,6 +35,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isCrouching = false;
     private bool isMoving;
     private bool isJumping;
+    private PlayerClimbLadder playerClimbLadder;
 
     void Start()
     {
@@ -51,7 +52,7 @@ public class PlayerMovement : MonoBehaviour
         Move();
         Jump();
         Crouch();
-        animator.SetBool("isJumping", !isGrounded);
+        MovementAnimationHandler();        
     }
 
     void CheckGrounded()
@@ -62,26 +63,18 @@ public class PlayerMovement : MonoBehaviour
     void Move()
     {
         float moveInput = Input.GetAxisRaw("Horizontal");
-        float moveSpeed = isCrouching ? crouchSpeed : speed;
+        float moveSpeed = isCrouching ? crouchSpeed : walkSpeed;
         rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
 
         isMoving = moveInput != 0;
-
-        if (moveInput != 0)
-        {
-            animator.SetBool("isRunning", true);
-            Flip(moveInput);
-        }
-
-        else
-        {
-            animator.SetBool("isRunning", false);
-        }
     }
     void Flip(float moveInput)
     {
         // Prevent flipping if the player is attached to a box
         if (boxHandler != null && boxHandler.isAttached)
+            return;
+
+        if (playerClimbLadder != null && playerClimbLadder.isClimbing)
             return;
 
         if (moveInput < 0)
@@ -92,16 +85,21 @@ public class PlayerMovement : MonoBehaviour
 
     void Jump()
     {
+        if (playerClimbLadder != null && playerClimbLadder.isClimbing)
+            return; // Disable jumping while climbing
+
         if (Input.GetButtonDown("Jump") && isGrounded && !isCrouching && !boxHandler.isDraggingBox)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             isGrounded = false;
+            isJumping = true;
         }
         else if (isGrounded)
         {
             isJumping = false;
         }
     }
+
 
     void Crouch()
     {
@@ -120,4 +118,22 @@ public class PlayerMovement : MonoBehaviour
             spriteRenderer.sprite = standingSprite;
         }
     }
+
+    void MovementAnimationHandler()
+    {
+        animator.SetBool("isWalking", isMoving);
+
+        if (playerClimbLadder != null && playerClimbLadder.isClimbing)
+        {
+            animator.SetBool("isJumping", false);
+        }
+        else
+        {
+            animator.SetBool("isJumping", isJumping);
+        }
+
+        float moveInput = Input.GetAxisRaw("Horizontal");
+        Flip(moveInput);
+    }
+
 }
