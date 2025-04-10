@@ -70,17 +70,24 @@ public class PlayerMovement : MonoBehaviour
         if (moveInput != 0)
         {
             animator.SetBool("isRunning", true);
-
-            // Flip the character based on move direction
-            if (moveInput < 0)
-                transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z);
-            else if (moveInput > 0)
-                transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
+            Flip(moveInput);
         }
+
         else
         {
             animator.SetBool("isRunning", false);
         }
+    }
+    void Flip(float moveInput)
+    {
+        // Prevent flipping if the player is attached to a box
+        if (boxHandler != null && boxHandler.isAttached)
+            return;
+
+        if (moveInput < 0)
+            transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z);
+        else if (moveInput > 0)
+            transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
     }
 
     void Jump()

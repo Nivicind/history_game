@@ -11,7 +11,7 @@ public class PlayerPushBoxes : MonoBehaviour
     private FixedJoint2D joint;
 
     public Animator animator;
-    private bool isAttached = false;
+    public bool isAttached = false;
     public bool isDraggingBox { get; private set; } = false;
 
     void Update()
