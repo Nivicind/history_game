@@ -9,6 +9,8 @@ public class PlayerPushBoxes : MonoBehaviour
 
     private GameObject currentBox;
     private FixedJoint2D joint;
+
+    public Animator animator;
     private bool isAttached = false;
     public bool isDraggingBox { get; private set; } = false;
 
@@ -21,7 +23,8 @@ public class PlayerPushBoxes : MonoBehaviour
 
         UpdateBoxVisual();
         HandleAttachOrDetach();
-        
+        PushPullAnimationHandler();
+        Debug.Log("isAttached: " + isAttached);
     }
 
     void CheckForBox()
@@ -117,6 +120,13 @@ public class PlayerPushBoxes : MonoBehaviour
             {
                 state.SetState(BoxVisualState.Idle);
             }
+        }
+    }
+
+    void PushPullAnimationHandler(){
+        if (animator != null)
+        {
+            animator.SetBool("isPushing", isAttached);
         }
     }
 }
