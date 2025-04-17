@@ -35,7 +35,6 @@ public class PlayerMovement : MonoBehaviour
     private bool isCrouching = false;
     private bool isMoving;
     private bool isJumping;
-    private PlayerClimbLadder playerClimbLadder;
 
     void Start()
     {
@@ -52,7 +51,7 @@ public class PlayerMovement : MonoBehaviour
         Move();
         Jump();
         Crouch();
-        MovementAnimationHandler();        
+        MovementAnimationHandler();
     }
 
     void CheckGrounded()
@@ -68,13 +67,11 @@ public class PlayerMovement : MonoBehaviour
 
         isMoving = moveInput != 0;
     }
+
     void Flip(float moveInput)
     {
         // Prevent flipping if the player is attached to a box
         if (boxHandler != null && boxHandler.isAttached)
-            return;
-
-        if (playerClimbLadder != null && playerClimbLadder.isClimbing)
             return;
 
         if (moveInput < 0)
@@ -85,9 +82,6 @@ public class PlayerMovement : MonoBehaviour
 
     void Jump()
     {
-        if (playerClimbLadder != null && playerClimbLadder.isClimbing)
-            return; // Disable jumping while climbing
-
         if (Input.GetButtonDown("Jump") && isGrounded && !isCrouching && !boxHandler.isDraggingBox)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
@@ -99,7 +93,6 @@ public class PlayerMovement : MonoBehaviour
             isJumping = false;
         }
     }
-
 
     void Crouch()
     {
@@ -122,18 +115,9 @@ public class PlayerMovement : MonoBehaviour
     void MovementAnimationHandler()
     {
         animator.SetBool("isWalking", isMoving);
-
-        if (playerClimbLadder != null && playerClimbLadder.isClimbing)
-        {
-            animator.SetBool("isJumping", false);
-        }
-        else
-        {
-            animator.SetBool("isJumping", isJumping);
-        }
+        animator.SetBool("isJumping", !isGrounded); // Jump animation triggers when not grounded
 
         float moveInput = Input.GetAxisRaw("Horizontal");
         Flip(moveInput);
     }
-
 }
