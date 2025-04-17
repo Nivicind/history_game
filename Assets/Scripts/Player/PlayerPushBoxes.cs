@@ -4,19 +4,21 @@ using UnityEngine;
 
 public class PlayerPushBoxes : MonoBehaviour
 {
+    [Header("References")]
     public Transform pushPullCheck;      // Reference to a point in front of the player
     public LayerMask boxLayer;           // Layer for boxes
+    public Animator animator;
+
+    [Header("State Variables")]
+    public bool IsAttachedToBox = false;
+    public bool isDraggingBox { get; private set; } = false;
 
     private GameObject currentBox;
     private FixedJoint2D joint;
 
-    public Animator animator;
-    public bool isAttached = false;
-    public bool isDraggingBox { get; private set; } = false;
-
     void Update()
     {
-        if (!isAttached)
+        if (!IsAttachedToBox)
         {
             CheckForBox();
         }
@@ -44,11 +46,11 @@ public class PlayerPushBoxes : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (!isAttached && currentBox != null)
+            if (!IsAttachedToBox && currentBox != null)
             {
                 AttachBox();
             }
-            else if (isAttached)
+            else if (IsAttachedToBox)
             {
                 DetachBox();
             }
@@ -72,7 +74,7 @@ public class PlayerPushBoxes : MonoBehaviour
         Vector2 connectedAnchor = boxRb.transform.InverseTransformPoint(transform.position);
         joint.connectedAnchor = connectedAnchor;
 
-        isAttached = true;
+        IsAttachedToBox = true;
         isDraggingBox = true;
     }
 
@@ -90,7 +92,7 @@ public class PlayerPushBoxes : MonoBehaviour
         }
 
         currentBox = null;
-        isAttached = false;
+        IsAttachedToBox = false;
         isDraggingBox = false;
     }
 
@@ -105,12 +107,12 @@ public class PlayerPushBoxes : MonoBehaviour
             if (state == null) continue;
 
             // If box is currently being dragged
-            if (isAttached && currentBox == box)
+            if (IsAttachedToBox && currentBox == box)
             {
                 state.SetState(BoxVisualState.Dragged);
             }
             // If box is currently hovered (in pushPullCheck range)
-            else if (!isAttached && currentBox == box)
+            else if (!IsAttachedToBox && currentBox == box)
             {
                 state.SetState(BoxVisualState.Hover);
             }
@@ -125,7 +127,7 @@ public class PlayerPushBoxes : MonoBehaviour
     void PushPullAnimationHandler(){
         if (animator != null)
         {
-            animator.SetBool("isPushing", isAttached);
+            animator.SetBool("isPushing", IsAttachedToBox);
         }
     }
 }

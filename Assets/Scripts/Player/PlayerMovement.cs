@@ -28,6 +28,8 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 standingOffset;
     private Vector2 standingSize;
 
+    [Header("Climb Ladder Settings")]
+    private PlayerClimbLadder playerClimbLadder;
     private Rigidbody2D rb;
     private PlayerPushBoxes boxHandler;
 
@@ -43,6 +45,7 @@ public class PlayerMovement : MonoBehaviour
         standingOffset = playerCollider.offset;
         animator = GetComponent<Animator>();
         boxHandler = GetComponent<PlayerPushBoxes>();
+        playerClimbLadder = GetComponent<PlayerClimbLadder>();
     }
 
     void Update()
@@ -51,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
         Move();
         Jump();
         Crouch();
-        MovementAnimationHandler();
+        MovementAnimationHandler();        
     }
 
     void CheckGrounded()
@@ -71,7 +74,10 @@ public class PlayerMovement : MonoBehaviour
     void Flip(float moveInput)
     {
         // Prevent flipping if the player is attached to a box
-        if (boxHandler != null && boxHandler.isAttached)
+        if (boxHandler != null && boxHandler.IsAttachedToBox)
+            return;
+            
+        if (boxHandler != null && playerClimbLadder.IsClimbLadder)
             return;
 
         if (moveInput < 0)
@@ -85,13 +91,9 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButtonDown("Jump") && isGrounded && !isCrouching && !boxHandler.isDraggingBox)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-            isGrounded = false;
-            isJumping = true;
         }
-        else if (isGrounded)
-        {
-            isJumping = false;
-        }
+
+        isJumping = !isGrounded; // <- Always true when not grounded
     }
 
     void Crouch()
@@ -115,7 +117,15 @@ public class PlayerMovement : MonoBehaviour
     void MovementAnimationHandler()
     {
         animator.SetBool("isWalking", isMoving);
-        animator.SetBool("isJumping", !isGrounded); // Jump animation triggers when not grounded
+
+        if (playerClimbLadder != null && playerClimbLadder.IsClimbLadder)
+        {
+            animator.SetBool("isJumping", false);
+        }
+        else
+        {
+            animator.SetBool("isJumping", isJumping);
+        }
 
         float moveInput = Input.GetAxisRaw("Horizontal");
         Flip(moveInput);
