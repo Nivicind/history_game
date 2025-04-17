@@ -35,6 +35,7 @@ public class PlayerClimbLadder : MonoBehaviour
         CheckLadderProximity();
         HandleLadderClimbing();
         ClimbLadderAnimationHadler();
+        UpdateLadderVisual();
     }
 
     private void FixedUpdate()
@@ -49,17 +50,17 @@ public class PlayerClimbLadder : MonoBehaviour
             rb.gravityScale = normalGravity; // Restore gravity when not climbing
         }
     }
-
     void CheckLadderProximity()
     {
         Collider2D ladderCollider = Physics2D.OverlapCircle(ladderCheck.position, checkRadius, ladderLayer);
 
         if (ladderCollider != null)
         {
-            // Check if the ladder's tag matches the player's facing direction
+            // Check if the ladder's scale matches the player's facing direction
             bool isFacingRight = transform.localScale.x > 0;
-            if ((isFacingRight && ladderCollider.CompareTag("Right Ladder")) ||
-                (!isFacingRight && ladderCollider.CompareTag("Left Ladder")))
+            float ladderScaleX = ladderCollider.transform.localScale.x;
+
+            if ((isFacingRight && ladderScaleX > 0) || (!isFacingRight && ladderScaleX < 0))
             {
                 currentLadder = ladderCollider.gameObject;
                 isNearLadder = true;
@@ -106,6 +107,34 @@ public class PlayerClimbLadder : MonoBehaviour
     void StopClimbing()
     {
         IsClimbLadder = false;
+    }
+
+    void UpdateLadderVisual()
+    {
+        // Find all ladders
+        GameObject[] allLadders = GameObject.FindGameObjectsWithTag("Ladder");
+
+        foreach (GameObject ladder in allLadders)
+        {
+            LadderState state = ladder.GetComponentInParent<LadderState>();
+            if (state == null) continue;
+
+            // Active: player is climbing this ladder
+            if (IsClimbLadder && currentLadder == ladder)
+            {
+                state.SetLadderState(LadderState.LadderVisualState.Active);
+            }
+            // Hover: near this ladder but not climbing
+            else if (!IsClimbLadder && currentLadder == ladder)
+            {
+                state.SetLadderState(LadderState.LadderVisualState.Hover);
+            }
+            // Idle: all others
+            else
+            {
+                state.SetLadderState(LadderState.LadderVisualState.Idle);
+            }
+        }
     }
 
     void ClimbLadderAnimationHadler()

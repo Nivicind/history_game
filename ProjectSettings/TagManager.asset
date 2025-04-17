@@ -7,8 +7,7 @@ TagManager:
   - Ground
   - Switch
   - Box
-  - Right Ladder
-  - Left Ladder
+  - Ladder
   layers:
   - Default
   - TransparentFX

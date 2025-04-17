@@ -33,7 +33,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private PlayerPushBoxes boxHandler;
 
-    private bool isGrounded;
+    public bool isGrounded;
     private bool isCrouching = false;
     private bool isMoving;
     private bool isJumping;
