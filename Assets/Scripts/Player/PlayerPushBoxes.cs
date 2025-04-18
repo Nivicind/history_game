@@ -12,8 +12,8 @@ public class PlayerPushBoxes : MonoBehaviour
     [Header("State Variables")]
     public bool IsAttachedToBox = false;
     public bool isDraggingBox { get; private set; } = false;
-
-    private GameObject currentBox;
+    public bool playerNotGrounded { get; private set; } = false;
+    public GameObject currentBox;
     private PlayerMovement playerMovement;
     private FixedJoint2D joint;
 
@@ -33,6 +33,20 @@ public class PlayerPushBoxes : MonoBehaviour
         UpdateBoxVisual();
         HandleAttachOrDetach();
         PushPullAnimationHandler();
+    }
+
+    void AutoDetach()
+    {
+        playerNotGrounded = !playerMovement.isGrounded;
+
+        if (IsAttachedToBox && currentBox != null)
+        {
+            BoxRigidbodyHandler boxRigidbodyHandler = currentBox.GetComponent<BoxRigidbodyHandler>();
+            if (boxRigidbodyHandler != null && (playerNotGrounded || !boxRigidbodyHandler.IsBoxGrounded()))
+            {
+                DetachBox();
+            }
+        }
     }
 
     void CheckForBox()
@@ -66,8 +80,10 @@ public class PlayerPushBoxes : MonoBehaviour
 
     void AttachBox()
     {
+        
         Rigidbody2D boxRb = currentBox.GetComponent<Rigidbody2D>();
-        boxRb.bodyType = RigidbodyType2D.Dynamic;
+
+        boxRb.mass = 10f;
 
         joint = gameObject.AddComponent<FixedJoint2D>();
         joint.connectedBody = boxRb;
@@ -89,60 +105,34 @@ public class PlayerPushBoxes : MonoBehaviour
             Destroy(joint);
         }
 
-        if (currentBox != null)
-        {
-            Rigidbody2D boxRb = currentBox.GetComponent<Rigidbody2D>();
-            boxRb.bodyType = RigidbodyType2D.Static;
-        }
-
+        Rigidbody2D boxRb = currentBox.GetComponent<Rigidbody2D>();
+        boxRb.mass = 999f;
+        
         currentBox = null;
         IsAttachedToBox = false;
         isDraggingBox = false;
     }
 
-    void AutoDetach()
-    {
-        bool playerNotGrounded = !playerMovement.isGrounded;
-        bool boxNotGrounded = false;
-
-        if (IsAttachedToBox && currentBox != null)
-        {
-            BoxState state = currentBox.GetComponent<BoxState>();
-            if (state != null && state.boxGroundCheck != null)
-            {
-                Collider2D boxGroundCollider = state.boxGroundCheck.GetComponent<Collider2D>();
-                if (boxGroundCollider != null)
-                {
-                    boxNotGrounded = !boxGroundCollider.IsTouchingLayers(state.groundLayer);
-                }
-            }
-        }
-
-        if (IsAttachedToBox && (playerNotGrounded || boxNotGrounded))
-        {
-            DetachBox();
-        }
-    }
     void UpdateBoxVisual()
     {
         GameObject[] allBoxes = GameObject.FindGameObjectsWithTag("Box");
 
         foreach (GameObject box in allBoxes)
         {
-            BoxState state = box.GetComponent<BoxState>();
-            if (state == null) continue;
+            BoxState boxState = box.GetComponent<BoxState>();
+            if (boxState == null) continue;
 
             if (IsAttachedToBox && currentBox == box)
             {
-                state.SetState(BoxVisualState.Dragged);
+                boxState.SetState(BoxVisualState.Dragged);
             }
             else if (!IsAttachedToBox && currentBox == box)
             {
-                state.SetState(BoxVisualState.Hover);
+                boxState.SetState(BoxVisualState.Hover);
             }
             else
             {
-                state.SetState(BoxVisualState.Idle);
+                boxState.SetState(BoxVisualState.Idle);
             }
         }
     }

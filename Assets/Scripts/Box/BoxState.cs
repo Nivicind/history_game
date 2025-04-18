@@ -15,11 +15,9 @@ public class BoxState : MonoBehaviour
     public Sprite hoverSprite;
     public Sprite draggedSprite;
 
-    [Header("Box Ground Check")]
-    public Transform boxGroundCheck;
-    public LayerMask groundLayer;
     private SpriteRenderer spriteRenderer;
     private BoxVisualState currentState;
+    public BoxVisualState CurrentVisualState => currentState;
 
     void Awake()
     {
