@@ -139,9 +139,34 @@ public class PlayerPushBoxes : MonoBehaviour
 
     void PushPullAnimationHandler()
     {
-        if (animator != null)
+        if (animator == null || playerMovement == null) return;
+
+        animator.SetBool("isPushing", IsAttachedToBox);
+
+        if (IsAttachedToBox)
         {
-            animator.SetBool("isPushing", IsAttachedToBox);
+            float horizontalInput = Input.GetAxisRaw("Horizontal");
+
+            if (Mathf.Abs(horizontalInput) > 0.01f)
+            {
+                animator.speed = 1f;
+
+                bool facingRight = playerMovement.isFacingRight;
+                bool movingRight = horizontalInput > 0;
+                bool isPulling = (facingRight && !movingRight) || (!facingRight && movingRight);
+
+                animator.SetBool("isPulling", isPulling);
+            }
+            else
+            {
+                animator.speed = 0f;
+                animator.SetBool("isPulling", false); // Pause push, no movement
+            }
+        }
+        else
+        {
+            animator.speed = 1f;
+            animator.SetBool("isPulling", false); // Not interacting
         }
     }
 }

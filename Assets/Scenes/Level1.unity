@@ -1670,7 +1670,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 294c12980bc32314bb578e559cd7ada5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parallaxFactor: 0.3
+  parallaxFactor: 0.5
 --- !u!212 &607795843
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4534,7 +4534,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 294c12980bc32314bb578e559cd7ada5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parallaxFactor: 0.4
+  parallaxFactor: 0.85
 --- !u!212 &843080286
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4769,6 +4769,7 @@ MonoBehaviour:
   crouchingOffset: {x: -0.14, y: -1}
   crouchingSize: {x: 0.73, y: 2}
   isGrounded: 0
+  isFacingRight: 1
 --- !u!114 &847637898
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4876,7 +4877,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 294c12980bc32314bb578e559cd7ada5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parallaxFactor: 0.2
+  parallaxFactor: 0.3
 --- !u!212 &951906819
 SpriteRenderer:
   m_ObjectHideFlags: 0

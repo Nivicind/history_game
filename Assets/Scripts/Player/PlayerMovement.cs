@@ -34,6 +34,7 @@ public class PlayerMovement : MonoBehaviour
     private PlayerPushBoxes boxHandler;
 
     public bool isGrounded;
+    public bool isFacingRight = true;
     private bool isCrouching = false;
     private bool isMoving;
     private bool isJumping;
@@ -80,10 +81,16 @@ public class PlayerMovement : MonoBehaviour
         if (boxHandler != null && playerClimbLadder.IsClimbLadder)
             return;
 
-        if (moveInput < 0)
+        if (moveInput < 0 && isFacingRight)
+        {
             transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z);
-        else if (moveInput > 0)
+            isFacingRight = false; // Update facing direction
+        }
+        else if (moveInput > 0 && !isFacingRight)
+        {
             transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
+            isFacingRight = true; // Update facing direction
+        }
     }
 
     void Jump()
@@ -98,7 +105,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Crouch()
     {
-        if (Input.GetKey(KeyCode.C) && isGrounded)
+        if (Input.GetKey(KeyCode.LeftShift) && isGrounded)
         {
             isCrouching = true;
             playerCollider.size = crouchingSize;
@@ -117,6 +124,7 @@ public class PlayerMovement : MonoBehaviour
     void MovementAnimationHandler()
     {
         animator.SetBool("isWalking", isMoving);
+        animator.SetBool("isCrouching", isCrouching);
 
         if (playerClimbLadder != null && playerClimbLadder.IsClimbLadder)
         {
