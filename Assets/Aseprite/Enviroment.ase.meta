@@ -243,7 +243,7 @@ ScriptedImporter:
     uvTransform: {x: 4, y: 394}
   - name: Enviroment_Frame_7
     originalName: 
-    pivot: {x: 0.5, y: 0.16753927}
+    pivot: {x: 0.5, y: 0.29319373}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -263,26 +263,6 @@ ScriptedImporter:
     uvTransform: {x: 4, y: 750}
   - name: Enviroment_Frame_8
     originalName: 
-    pivot: {x: 0.5, y: 0}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    rect:
-      serializedVersion: 2
-      x: 4
-      y: 2252
-      width: 480
-      height: 270
-    spriteID: fadfcda1a86e37d4fbf7954019c4215c
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 4, y: 2252}
-  - name: Enviroment_Frame_9
-    originalName: 
     pivot: {x: 0.6691267, y: 0.29319373}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
@@ -292,7 +272,7 @@ ScriptedImporter:
       y: 4
       width: 813
       height: 382
-    spriteID: 8aeed5785d6e04141add084c501a4b90
+    spriteID: fadfcda1a86e37d4fbf7954019c4215c
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -301,6 +281,26 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     uvTransform: {x: 4, y: 4}
+  - name: Enviroment_Frame_9
+    originalName: 
+    pivot: {x: 0.5, y: 0}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 2252
+      width: 480
+      height: 270
+    spriteID: 8aeed5785d6e04141add084c501a4b90
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 2252}
   - name: Enviroment_Frame_0
     originalName: 
     pivot: {x: 0.94117653, y: -0.41711232}
@@ -409,19 +409,10 @@ ScriptedImporter:
       additiveSortOrder: 0
       cellRect:
         x: 0
-        y: -64
+        y: -112
         width: 480
         height: 382
       spriteId: 48853e88593169246bc0c05248d04076
-    - name: Enviroment_Frame_8
-      frameIndex: 8
-      additiveSortOrder: 0
-      cellRect:
-        x: 0
-        y: 0
-        width: 480
-        height: 270
-      spriteId: fadfcda1a86e37d4fbf7954019c4215c
     - name: Enviroment_Frame_9
       frameIndex: 9
       additiveSortOrder: 0
@@ -430,6 +421,15 @@ ScriptedImporter:
         y: -112
         width: 813
         height: 382
+      spriteId: fadfcda1a86e37d4fbf7954019c4215c
+    - name: Enviroment_Frame_8
+      frameIndex: 8
+      additiveSortOrder: 0
+      cellRect:
+        x: 0
+        y: 0
+        width: 480
+        height: 270
       spriteId: 8aeed5785d6e04141add084c501a4b90
     - name: Enviroment_Frame_0
       frameIndex: 0
