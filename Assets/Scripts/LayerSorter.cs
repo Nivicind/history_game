@@ -15,7 +15,7 @@ public class LayerSorter : MonoBehaviour
     void Update()
     {
         // Multiply to keep decimal precision, then factor in X to resolve tie-breaks
-        int sortOrder = (int)(transform.position.y * 1 - transform.position.x * 1.5f);
+        int sortOrder = (int)(transform.position.y * 1.5 - transform.position.x * 1.5f);
         sr.sortingOrder = sortOrder;
     }
 }
