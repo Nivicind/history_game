@@ -10,6 +10,7 @@ public class LadderState : MonoBehaviour
     {
         public Sprite top1;
         public Sprite top2;
+        public Sprite top3;
         public Sprite body;
         public Sprite bottom1;
         public Sprite bottom2;
@@ -23,6 +24,7 @@ public class LadderState : MonoBehaviour
     [Header("Ladder Piece References (in order)")]
     public SpriteRenderer top1Renderer;
     public SpriteRenderer top2Renderer;
+    public SpriteRenderer top3Renderer;
     public SpriteRenderer bodyRenderer; // This should be a TILED sprite
     public SpriteRenderer bottom1Renderer;
     public SpriteRenderer bottom2Renderer;
@@ -51,6 +53,7 @@ public class LadderState : MonoBehaviour
 
         top1Renderer.sprite = spritesToUse.top1;
         top2Renderer.sprite = spritesToUse.top2;
+        top3Renderer.sprite = spritesToUse.top3;
         bodyRenderer.sprite = spritesToUse.body;
         bottom1Renderer.sprite = spritesToUse.bottom1;
         bottom2Renderer.sprite = spritesToUse.bottom2;

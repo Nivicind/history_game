@@ -155,9 +155,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -837091111
+  m_SortingLayerID: -1194022811
   m_SortingLayer: -2
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 9fdc053f9f8da224287a0557ed1affb6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -284,7 +284,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b8ed4f1b90f16a40b5e22c10e8eea3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sortingLayerName: Player & Boxes
+  sortingLayerName: World Interactive
+  sortingOffset: 0
 --- !u!114 &3869906370536729522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -297,7 +298,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5188a7203c239a3408c9cb4e821c8e4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fallThreshold: -2
+  breakVelocityThreshold: -15
 --- !u!1 &6582005285494894536
 GameObject:
   m_ObjectHideFlags: 0

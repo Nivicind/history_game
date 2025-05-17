@@ -9,6 +9,7 @@ TagManager:
   - Box
   - Ladder
   - Plank
+  - Top Ladder
   layers:
   - Default
   - TransparentFX
@@ -52,11 +53,8 @@ TagManager:
   - name: Ground
     uniqueID: 4045592851
     locked: 0
-  - name: Objects
+  - name: World Interactive
     uniqueID: 3100944485
-    locked: 0
-  - name: Player & Boxes
-    uniqueID: 3457876185
     locked: 0
   - name: Foreground
     uniqueID: 1652841705

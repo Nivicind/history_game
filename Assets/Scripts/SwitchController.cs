@@ -1,41 +1,54 @@
 using UnityEngine;
 
-public class TEST_Lift : MonoBehaviour
+public class SwitchController : MonoBehaviour
 {
     [Header("Lift Settings")]
-    [SerializeField] private GameObject lift;             // Reference to the lift GameObject
+    [SerializeField] private GameObject lift;
     [SerializeField] private float moveSpeed = 3f;
     [SerializeField] private float minY = 0f;
     [SerializeField] private float maxY = 5f;
-    [SerializeField] private LayerMask obstacleLayers;    // Layers that the lift should not go through
+    [SerializeField] private LayerMask obstacleLayers;
     [SerializeField] private float detectionDistance = 0.05f;
+
+    [Header("Animator")]
+    [SerializeField] private Animator switchAnimator;
 
     private BoxCollider2D liftCollider;
     private bool playerInRange = false;
 
     void Start()
     {
-        liftCollider = lift.GetComponent<BoxCollider2D>();
+        liftCollider = lift.GetComponentInChildren<BoxCollider2D>();
         if (liftCollider == null)
-            Debug.LogWarning("Lift object has no BoxCollider2D!");
+            Debug.LogWarning("Lift child object has no BoxCollider2D!");
+
+        if (switchAnimator == null)
+            Debug.LogWarning("Animator not assigned on switch!");
     }
 
     void Update()
     {
         if (!playerInRange || liftCollider == null) return;
 
+        HandleLiftMovement();
+    }
+
+    // Refactored lift movement logic
+    void HandleLiftMovement()
+    {
         Vector2 currentPos = lift.transform.position;
         float targetY = currentPos.y;
 
-        // Move Up
-        if (Input.GetKey(KeyCode.Q) && currentPos.y < maxY)
+        bool isMovingUp = Input.GetKey(KeyCode.Q) && currentPos.y < maxY;
+        bool isMovingDown = Input.GetKey(KeyCode.E) && currentPos.y > minY;
+
+        // Handle lift movement
+        if (isMovingUp)
         {
             targetY += moveSpeed * Time.deltaTime;
         }
-        // Move Down
-        else if (Input.GetKey(KeyCode.E) && currentPos.y > minY)
+        else if (isMovingDown)
         {
-            // Cast a box below the lift to detect any blocking objects
             Vector2 boxSize = liftCollider.bounds.size;
             Vector2 boxCenter = (Vector2)lift.transform.position + Vector2.down * (boxSize.y / 2f + detectionDistance / 2f);
             RaycastHit2D hit = Physics2D.BoxCast(boxCenter, boxSize, 0f, Vector2.down, detectionDistance, obstacleLayers);
@@ -52,6 +65,29 @@ public class TEST_Lift : MonoBehaviour
 
         targetY = Mathf.Clamp(targetY, minY, maxY);
         lift.transform.position = new Vector2(currentPos.x, targetY);
+
+        // Handle animation
+        SwitchAnimationHandler(isMovingDown, isMovingUp);
+    }
+
+    void SwitchAnimationHandler(bool isMovingDown, bool isMovingUp)
+    {
+        if (switchAnimator == null) return;
+
+        if (isMovingDown)
+        {
+            switchAnimator.SetBool("IsSpinning", true);
+            switchAnimator.SetFloat("Speed", 1f); // Play forward
+        }
+        else if (isMovingUp)
+        {
+            switchAnimator.SetBool("IsSpinning", true);
+            switchAnimator.SetFloat("Speed", -1f); // Play in reverse
+        }
+        else
+        {
+            switchAnimator.SetBool("IsSpinning", false);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

@@ -3,7 +3,9 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer))]
 public class LayerSorter : MonoBehaviour
 {
-    public string sortingLayerName = "Player & Boxes"; // Set in Inspector
+    public string sortingLayerName = "World Interactive";
+    public int sortingOffset = 0;
+
     private SpriteRenderer sr;
 
     void Start()
@@ -14,8 +16,12 @@ public class LayerSorter : MonoBehaviour
 
     void Update()
     {
-        // Multiply to keep decimal precision, then factor in X to resolve tie-breaks
-        int sortOrder = (int)(transform.position.y * 1.5 - transform.position.x * 1.5f);
+        // Invert Y so higher Y = higher order (in front)
+        // Invert X so lower X = higher order (in front)
+        float yWeight = 100f;
+        float xWeight = 10f;
+
+        int sortOrder = Mathf.RoundToInt(transform.position.y * yWeight - transform.position.x * xWeight) + sortingOffset;
         sr.sortingOrder = sortOrder;
     }
 }
