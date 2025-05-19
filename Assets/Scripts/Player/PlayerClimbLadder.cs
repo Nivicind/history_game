@@ -140,5 +140,6 @@ public class PlayerClimbLadder : MonoBehaviour
     void ClimbLadderAnimationHadler()
     {
         animator.SetBool("isClimbLadder", IsClimbLadder);
+        animator.SetFloat("verticalInput", vertical);
     }
 }
