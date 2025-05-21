@@ -16,6 +16,8 @@ public class LadderState : MonoBehaviour
         public Sprite bottom2;
     }
 
+    [Header("Ladder Direction")]
+    public bool facingRightLadder = true;
     [Header("State Sprites")]
     public LadderVisualSprites idleSprites;
     public LadderVisualSprites hoverSprites;

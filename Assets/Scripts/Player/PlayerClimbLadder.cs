@@ -50,33 +50,42 @@ public class PlayerClimbLadder : MonoBehaviour
             rb.gravityScale = normalGravity; // Restore gravity when not climbing
         }
     }
-    void CheckLadderProximity()
+void CheckLadderProximity()
+{
+    Collider2D ladderCollider = Physics2D.OverlapCircle(ladderCheck.position, checkRadius, ladderLayer);
+
+    if (ladderCollider != null)
     {
-        Collider2D ladderCollider = Physics2D.OverlapCircle(ladderCheck.position, checkRadius, ladderLayer);
-
-        if (ladderCollider != null)
-        {
-            // Check if the ladder's scale matches the player's facing direction
-            bool isFacingRight = transform.localScale.x > 0;
-            float ladderScaleX = ladderCollider.transform.localScale.x;
-
-            if ((isFacingRight && ladderScaleX > 0) || (!isFacingRight && ladderScaleX < 0))
+        LadderState state = ladderCollider.GetComponentInParent<LadderState>();
+        bool isFacingRight = transform.localScale.x > 0;
+        
+        if (state != null)
             {
-                currentLadder = ladderCollider.gameObject;
-                isNearLadder = true;
+                // ✅ Compare ladder's facing direction with player's facing direction
+                if (state.facingRightLadder == isFacingRight)
+                {
+                    currentLadder = ladderCollider.gameObject;
+                    isNearLadder = true;
+                }
+                else
+                {
+                    currentLadder = null;
+                    isNearLadder = false;
+                }
             }
             else
             {
                 currentLadder = null;
                 isNearLadder = false;
             }
-        }
-        else
-        {
-            currentLadder = null;
-            isNearLadder = false;
-        }
     }
+    else
+    {
+        currentLadder = null;
+        isNearLadder = false;
+    }
+}
+
 
     void HandleLadderClimbing()
     {
