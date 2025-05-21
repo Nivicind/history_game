@@ -912,10 +912,10 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 0
   windowsGamepadBackendHint: 0
-  cloudProjectId: b6d53ee5-add2-4242-ac8a-f770b8427feb
+  cloudProjectId: e61ada65-dabb-48ff-9add-8a6d2ebcb84a
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: history_game 2025-02-24_21-08-17
+  projectName: history_game
   organizationId: nam137hb
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
