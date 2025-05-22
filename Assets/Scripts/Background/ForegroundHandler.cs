@@ -5,6 +5,7 @@ using DG.Tweening;
 public class ForegroundHandler : MonoBehaviour
 {
     public float fadeDuration = 0.5f;
+    public float alphaOut = 0f; // Initial alpha value
     private SpriteRenderer[] renderers;
 
     void Awake()
@@ -15,7 +16,7 @@ public class ForegroundHandler : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
-            SetAlpha(0f); // Fade out
+            SetAlpha(alphaOut); // Fade out
     }
 
     void OnTriggerExit2D(Collider2D other)
