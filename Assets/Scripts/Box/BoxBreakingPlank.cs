@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class BoxBreakingPlank : MonoBehaviour
 {
-    [SerializeField] private float breakVelocityThreshold = -15f; // Threshold to break plank
+    [SerializeField] private float breakVelocityThreshold = -10f; // Threshold to break plank
 
     private Rigidbody2D rb;
     private float lastFallingVelocityY = 0f;
