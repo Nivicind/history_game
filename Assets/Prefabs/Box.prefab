@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2218196173751101699}
   m_Layer: 6
   m_Name: Ground_Box
-  m_TagString: Ground
+  m_TagString: Box Top
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -269,6 +269,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boxGroundCheck: {fileID: 9031198684186555714}
+  groundCheckRadius: 0.1
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -298,7 +299,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5188a7203c239a3408c9cb4e821c8e4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  breakVelocityThreshold: -15
+  breakVelocityThreshold: -10
 --- !u!1 &6582005285494894536
 GameObject:
   m_ObjectHideFlags: 0

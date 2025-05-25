@@ -10,6 +10,9 @@ TagManager:
   - Ladder
   - Plank
   - Top Ladder
+  - Hide Object
+  - Detector
+  - Box Top
   layers:
   - Default
   - TransparentFX

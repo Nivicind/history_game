@@ -10,14 +10,14 @@ public class ZoomCameraCinemachine : MonoBehaviour
     public float zoomOutSize = 7f;
     public float zoomSpeed = 1f;
 
-    [Header("Offset Settings")]
-    public float enterXOffset = 5f;
-    public float exitXOffset = 0f;
-    public float offsetTweenSpeed = 1f;
+    [Header("Lookahead Settings")]
+    public float enterLookaheadTime = 1f;
+    public float exitLookaheadTime = 0f;
+    public float lookaheadTweenSpeed = 1f;
 
     private CinemachineFramingTransposer transposer;
     private Tween zoomTween;
-    private Tween offsetTween;
+    private Tween lookaheadTween;
 
     void Start()
     {
@@ -40,7 +40,7 @@ public class ZoomCameraCinemachine : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             ZoomTo(zoomInSize);
-            SetCameraXOffset(enterXOffset);
+            SetLookaheadTime(enterLookaheadTime);
         }
     }
 
@@ -49,7 +49,7 @@ public class ZoomCameraCinemachine : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             ZoomTo(zoomOutSize);
-            SetCameraXOffset(exitXOffset);
+            SetLookaheadTime(exitLookaheadTime);
         }
     }
 
@@ -66,20 +66,16 @@ public class ZoomCameraCinemachine : MonoBehaviour
         ).SetEase(Ease.InOutSine);
     }
 
-    void SetCameraXOffset(float targetOffset)
+    void SetLookaheadTime(float targetTime)
     {
-        if (offsetTween != null && offsetTween.IsActive())
-            offsetTween.Kill();
+        if (lookaheadTween != null && lookaheadTween.IsActive())
+            lookaheadTween.Kill();
 
-        offsetTween = DOTween.To(
-            () => transposer.m_TrackedObjectOffset.x,
-            x => {
-                Vector3 newOffset = transposer.m_TrackedObjectOffset;
-                newOffset.x = x;
-                transposer.m_TrackedObjectOffset = newOffset;
-            },
-            targetOffset,
-            offsetTweenSpeed
+        lookaheadTween = DOTween.To(
+            () => transposer.m_LookaheadTime,
+            x => transposer.m_LookaheadTime = x,
+            targetTime,
+            lookaheadTweenSpeed
         ).SetEase(Ease.InOutSine);
     }
 }

@@ -35,7 +35,7 @@ public class PlayerMovement : MonoBehaviour
 
     public bool isGrounded;
     public bool isFacingRight = true;
-    private bool isCrouching = false;
+    public bool isCrouching = false;
     private bool isMoving;
     private bool isJumping;
 
@@ -55,7 +55,10 @@ public class PlayerMovement : MonoBehaviour
         Move();
         Jump();
         Crouch();
-        MovementAnimationHandler();        
+        MovementAnimationHandler();
+        // {
+        //     Debug.Log("isCrouching: " + isCrouching); // TEMP DEBUG            
+        // }
     }
 
     void CheckGrounded()
