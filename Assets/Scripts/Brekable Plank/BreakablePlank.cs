@@ -52,7 +52,6 @@ public class BreakablePlank : MonoBehaviour
         gameObject.SetActive(true);
 
         animator.ResetTrigger("Break");
-        animator.Play("Plank Breaking", 0, 0f); // Replace "Idle" with your plank's default state name
     }
 
     public void BreakInstant()
