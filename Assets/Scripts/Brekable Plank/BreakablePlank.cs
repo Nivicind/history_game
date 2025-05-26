@@ -39,4 +39,26 @@ public class BreakablePlank : MonoBehaviour
         yield return new WaitForSeconds(breakAnimLength);
         gameObject.SetActive(false);
     }
+
+    public bool IsBroken()
+    {
+        return isBroken;
+    }
+
+    public void ResetPlank()
+    {
+        isBroken = false;
+        objCollider.enabled = true;
+        gameObject.SetActive(true);
+
+        animator.ResetTrigger("Break");
+        animator.Play("Plank Breaking", 0, 0f); // Replace "Idle" with your plank's default state name
+    }
+
+    public void BreakInstant()
+    {
+        isBroken = true;
+        objCollider.enabled = false;
+        gameObject.SetActive(false); // Skip animation, already broken
+    }
 }

@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 487686427962221816}
   - component: {fileID: 7644145994601204504}
   - component: {fileID: 4172990851471397552}
-  - component: {fileID: 2994575801188558385}
   - component: {fileID: 3476979586533101545}
+  - component: {fileID: 2994575801188558385}
+  - component: {fileID: 7614587794538870156}
   m_Layer: 6
   m_Name: Plank
   m_TagString: Plank
@@ -132,18 +133,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 5.5, y: 1}
   m_EdgeRadius: 0
---- !u!114 &2994575801188558385
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7132720039166818920}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 760fc7ddf01206641b06f82f5586875a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!95 &3476979586533101545
 Animator:
   serializedVersion: 5
@@ -165,3 +154,27 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2994575801188558385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7132720039166818920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 760fc7ddf01206641b06f82f5586875a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7614587794538870156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7132720039166818920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb99b996f8ad8b44a92ff5805ecf5b54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
