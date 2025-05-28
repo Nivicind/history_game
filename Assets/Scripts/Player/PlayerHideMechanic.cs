@@ -1,13 +1,16 @@
 using UnityEngine;
-
+using UnityEngine.UI;
 public class PlayerHideMechanic : MonoBehaviour
 {
     private bool isHiding = false;
     private PlayerMovement playerMovement;
 
+    [Header("Detection UI")]
+    public Canvas DetectedCanvas;
     void Start()
     {
         playerMovement = GetComponent<PlayerMovement>();
+        DetectedCanvas.gameObject.SetActive(false);
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -30,6 +33,7 @@ public class PlayerHideMechanic : MonoBehaviour
         if (collision.CompareTag("Detector") && !isHiding)
         {
             Debug.Log("The player has been detected!");
+            PlayerGetDetected();
         }
     }
 
@@ -40,5 +44,18 @@ public class PlayerHideMechanic : MonoBehaviour
             isHiding = false;
             Debug.Log("The player exited hiding spot and is no longer hiding");
         }
+    }
+
+    private void PlayerGetDetected()
+    {
+        DetectedCanvas.gameObject.SetActive(true);
+        playerMovement.enabled = false;
+        Time.timeScale = 0f;
+    }
+
+    public void DisableDetectedCanvas()
+    {
+        DetectedCanvas.gameObject.SetActive(false);
+        playerMovement.enabled = true;
     }
 }

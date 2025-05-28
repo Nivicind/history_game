@@ -5,6 +5,10 @@ public class PauseManager : MonoBehaviour
     public GameObject pauseMenuCanvas;
     private bool isPaused = false;
 
+    void Start()
+    {
+        pauseMenuCanvas.SetActive(false);
+    }
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
