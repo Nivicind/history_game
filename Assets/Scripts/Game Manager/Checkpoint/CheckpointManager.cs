@@ -13,7 +13,7 @@ public class CheckpointManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // optional: keep between scenes
+            DontDestroyOnLoad(gameObject); // Keep manager alive across scenes
         }
         else
         {
@@ -31,13 +31,25 @@ public class CheckpointManager : MonoBehaviour
     {
         lastCheckpointPosition = pos;
 
+        // Clean up destroyed references
+        respawnables.RemoveAll(r => r == null);
+
         foreach (var r in respawnables)
             r.SaveState();
     }
 
     public void RespawnPlayer(GameObject player)
     {
+        if (player == null)
+        {
+            Debug.LogWarning("RespawnPlayer called but player is null.");
+            return;
+        }
+
         player.transform.position = lastCheckpointPosition;
+
+        // Clean up destroyed references before restoring
+        respawnables.RemoveAll(r => r == null);
 
         foreach (var r in respawnables)
             r.RestoreState();

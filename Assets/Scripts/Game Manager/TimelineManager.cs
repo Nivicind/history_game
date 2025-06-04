@@ -29,9 +29,6 @@ public class TimelineManager : MonoBehaviour
             playerController.enabled = true;
         }
 
-        // --- Handle Outro Timeline ---
-        // We only subscribe to the 'stopped' event for the outro timeline.
-        // The disabling of player control for the outro will happen in TriggerOutroTimeline().
         if (outroTimelineDirector != null)
         {
             outroTimelineDirector.stopped += OnOutroTimelineFinished;
