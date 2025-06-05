@@ -1,57 +1,54 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class CheckpointManager : MonoBehaviour
 {
-    public static CheckpointManager Instance;
+    public static CheckpointManager Instance { get; private set; }
 
-    private Vector2 lastCheckpointPosition;
-    private List<Respawnable> respawnables = new List<Respawnable>();
+    private Vector3 checkpointPosition;
+    private List<IRespawnable> respawnables = new List<IRespawnable>();
 
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject); // Keep manager alive across scenes
-        }
-        else
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
-        }
-    }
-
-    public void RegisterRespawnable(Respawnable obj)
-    {
-        if (!respawnables.Contains(obj))
-            respawnables.Add(obj);
-    }
-
-    public void SetCheckpoint(Vector2 pos)
-    {
-        lastCheckpointPosition = pos;
-
-        // Clean up destroyed references
-        respawnables.RemoveAll(r => r == null);
-
-        foreach (var r in respawnables)
-            r.SaveState();
-    }
-
-    public void RespawnPlayer(GameObject player)
-    {
-        if (player == null)
-        {
-            Debug.LogWarning("RespawnPlayer called but player is null.");
             return;
         }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
 
-        player.transform.position = lastCheckpointPosition;
+    public void Register(IRespawnable respawnable)
+    {
+        if (!respawnables.Contains(respawnable))
+            respawnables.Add(respawnable);
+    }
 
-        // Clean up destroyed references before restoring
-        respawnables.RemoveAll(r => r == null);
+    public void Unregister(IRespawnable respawnable)
+    {
+        respawnables.Remove(respawnable);
+    }
 
+    public void SetCheckpoint(Vector3 position)
+    {
+        checkpointPosition = position;
         foreach (var r in respawnables)
-            r.RestoreState();
+        {
+            r.SaveState();
+        }
+    }
+
+    public void Respawn()
+    {
+        foreach (var r in respawnables)
+        {
+            r.LoadState();
+        }
+    }
+
+    public Vector3 GetCheckpointPosition()
+    {
+        return checkpointPosition;
     }
 }

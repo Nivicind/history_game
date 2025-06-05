@@ -1,59 +1,52 @@
 using UnityEngine;
-using UnityEngine.SceneManagement; 
-using UnityEngine.Playables; // THÊM DÒNG NÀY để làm việc với Timeline
+using UnityEngine.SceneManagement;
+using System.Collections; // Required for Coroutines
+
+// Required for PlayableDirector
+using UnityEngine.Playables;
 
 public class MainMenuController : MonoBehaviour
 {
-    public GameObject mainMenuCanvas;     
-    public PlayableDirector transitionTimelineDirector; 
-    public string introSceneName = "Intro"; 
+    [Header("Scene Transitions")]
+    [SerializeField] private string introSceneName = "Intro"; // Name of the Intro scene
 
-    void Start()
+    [Header("Fade Out References")]
+    public PlayableDirector fadeOutTimelineDirector; 
+    [SerializeField] private float fadeDuration = 1.0f; 
+    public void PlayGame()
     {
-        if (mainMenuCanvas != null)
-        {
-            mainMenuCanvas.SetActive(true);
-        }
-        Time.timeScale = 1f;
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
+        Debug.Log("Play Game button clicked! Initiating fade.");
+
+        StartCoroutine(FadeAndLoadScene());
     }
 
-    public void StartGame()
+    private IEnumerator FadeAndLoadScene()
     {
-        // Ẩn các nút menu chính ngay lập tức để tránh người dùng click lại
 
-        if (transitionTimelineDirector != null)
+        if (fadeOutTimelineDirector != null)
         {
-            transitionTimelineDirector.Play();
-            transitionTimelineDirector.stopped += OnTransitionTimelineFinished;
-            Debug.Log("Playing transition timeline...");
+            fadeOutTimelineDirector.time = 0;
+            fadeOutTimelineDirector.Play(); // Play the timeline
         }
         else
         {
-            Debug.LogWarning("Transition Timeline Director not assigned! Transitioning directly to Intro Scene.");
-            SceneManager.LoadScene(introSceneName); 
+            Debug.LogError("Fade Out Timeline Director is not assigned in MainMenuController!");
+            yield return null;
         }
-    }
 
-    private void OnTransitionTimelineFinished(PlayableDirector director)
-    {
-        director.stopped -= OnTransitionTimelineFinished; 
-        SceneManager.LoadScene(introSceneName); 
-        Debug.Log("Transition timeline finished. Loading Intro Scene.");
-    }
+        yield return new WaitForSeconds(fadeDuration);
 
-    public void OpenSettings()
-    {
-        Debug.Log("Opening Settings (Not implemented yet, or opens a panel)");
+        Debug.Log("Fade complete. Loading Intro scene.");
+        SceneManager.LoadScene(introSceneName);
     }
 
     public void QuitGame()
     {
-        Debug.Log("Quitting Game!");
+        Debug.Log("Quit Game button clicked!");
+
         Application.Quit();
+
         #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
         #endif
     }
 }
