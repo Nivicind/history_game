@@ -106,7 +106,7 @@ public class PlayerPushBoxes : MonoBehaviour
         }
 
         Rigidbody2D boxRb = currentBox.GetComponent<Rigidbody2D>();
-        boxRb.mass = 999f;
+        boxRb.mass = 100.0f;
         
         currentBox = null;
         IsAttachedToBox = false;

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using DialogueEditor; // Đảm bảo đã thêm namespace này để truy cập ConversationManager [cite: 2]
+using DialogueEditor;
 
 public class DialogueTrigger : MonoBehaviour
 {
@@ -9,11 +9,9 @@ public class DialogueTrigger : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // Kiểm tra xem đối tượng va chạm có phải là Player không
         if (other.CompareTag("Player"))
         {
             playerInTrigger = true;
-
             ConversationManager.Instance.StartConversation(myConversation); 
         }
     }

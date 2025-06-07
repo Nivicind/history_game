@@ -29,22 +29,21 @@ public class CheckpointManager : MonoBehaviour
     {
         respawnables.Remove(respawnable);
     }
-
+    
     public void SetCheckpoint(Vector3 position)
     {
         checkpointPosition = position;
+        Debug.Log("Checkpoint set at: " + checkpointPosition);
+
         foreach (var r in respawnables)
-        {
             r.SaveState();
-        }
     }
 
     public void Respawn()
     {
+        Debug.Log("Respawning...");
         foreach (var r in respawnables)
-        {
             r.LoadState();
-        }
     }
 
     public Vector3 GetCheckpointPosition()
