@@ -3,6 +3,7 @@ using UnityEngine;
 public class BoxBreakingPlank : MonoBehaviour
 {
     [SerializeField] private float breakVelocityThreshold = -10f; // Threshold to break plank
+    [SerializeField] private AudioSource breakSound; // Sound to play when breaking the plank
 
     private Rigidbody2D rb;
     private float lastFallingVelocityY = 0f;
@@ -32,9 +33,9 @@ public class BoxBreakingPlank : MonoBehaviour
                 if (plank != null)
                 {
                     plank.Break();
+                    breakSound.Play();
                 }
             }
-
             // Reset the stored velocity after the hit (optional)
             lastFallingVelocityY = 0f;
         }

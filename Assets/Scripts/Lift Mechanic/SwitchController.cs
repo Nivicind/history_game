@@ -13,6 +13,8 @@ public class SwitchController : MonoBehaviour
     [Header("Animator")]
     [SerializeField] private Animator switchAnimator;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource liftAudioSource;
     private BoxCollider2D liftCollider;
     private bool playerInRange = false;
 
@@ -41,10 +43,12 @@ public class SwitchController : MonoBehaviour
 
         bool isMovingUp = Input.GetKey(KeyCode.Q) && currentPos.y < maxY;
         bool isMovingDown = Input.GetKey(KeyCode.E) && currentPos.y > minY;
+        bool isTryingToMove = false;
 
         if (isMovingUp)
         {
             targetY += moveSpeed * Time.deltaTime;
+            isTryingToMove = true;
         }
         else if (isMovingDown)
         {
@@ -68,6 +72,7 @@ public class SwitchController : MonoBehaviour
             if (hit.collider == null && !hasPlankBelow)
             {
                 targetY -= moveSpeed * Time.deltaTime;
+                isTryingToMove = true;
             }
             else
             {
@@ -79,6 +84,7 @@ public class SwitchController : MonoBehaviour
         lift.transform.position = new Vector2(currentPos.x, targetY);
 
         SwitchAnimationHandler(isMovingDown, isMovingUp);
+        HandleLiftSound(isTryingToMove);
     }
 
 
@@ -117,4 +123,17 @@ public class SwitchController : MonoBehaviour
             playerInRange = false;
         }
     }
+    void HandleLiftSound(bool isTryingToMove)
+{
+    if (isTryingToMove)
+    {
+        if (!liftAudioSource.isPlaying)
+            liftAudioSource.Play();
+    }
+    else
+    {
+        if (liftAudioSource.isPlaying)
+            liftAudioSource.Stop();
+    }
+}
 }

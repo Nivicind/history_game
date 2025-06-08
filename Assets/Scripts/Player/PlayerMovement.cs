@@ -33,6 +33,10 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private PlayerPushBoxes boxHandler;
 
+    [Header("Audio")]
+    private AudioSource footstepSource;
+
+    [Header("Boolean States")]
     public bool isGrounded;
     public bool isFacingRight = true;
     public bool isCrouching = false;
@@ -47,6 +51,7 @@ public class PlayerMovement : MonoBehaviour
         animator = GetComponent<Animator>();
         boxHandler = GetComponent<PlayerPushBoxes>();
         playerClimbLadder = GetComponent<PlayerClimbLadder>();
+        footstepSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -56,9 +61,7 @@ public class PlayerMovement : MonoBehaviour
         Jump();
         Crouch();
         MovementAnimationHandler();
-        // {
-        //     Debug.Log("isCrouching: " + isCrouching); // TEMP DEBUG            
-        // }
+        HandleFootstepSound();
     }
 
     void CheckGrounded()
@@ -80,7 +83,7 @@ public class PlayerMovement : MonoBehaviour
         // Prevent flipping if the player is attached to a box
         if (boxHandler != null && boxHandler.IsAttachedToBox)
             return;
-            
+
         if (boxHandler != null && playerClimbLadder.IsClimbLadder)
             return;
 
@@ -141,4 +144,23 @@ public class PlayerMovement : MonoBehaviour
         float moveInput = Input.GetAxisRaw("Horizontal");
         Flip(moveInput);
     }
+    void HandleFootstepSound()
+    {
+        if (isGrounded && isMoving && !isJumping && !isCrouching)
+        {
+            if (!footstepSource.isPlaying)
+            {
+                footstepSource.loop = true;
+                footstepSource.Play();
+            }
+        }
+        else
+        {
+            if (footstepSource.isPlaying)
+            {
+                footstepSource.Stop();
+            }
+        }
+    }
+
 }

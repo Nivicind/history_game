@@ -61,7 +61,6 @@ void CheckLadderProximity()
         
         if (state != null)
             {
-                // ✅ Compare ladder's facing direction with player's facing direction
                 if (state.facingRightLadder == isFacingRight)
                 {
                     currentLadder = ladderCollider.gameObject;

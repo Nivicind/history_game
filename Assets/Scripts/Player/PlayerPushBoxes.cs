@@ -17,6 +17,9 @@ public class PlayerPushBoxes : MonoBehaviour
     private PlayerMovement playerMovement;
     private FixedJoint2D joint;
 
+    [Header("Dragging Sound")]
+    public AudioSource dragAudioSource;
+
     void Start()
     {
         playerMovement = GetComponent<PlayerMovement>();
@@ -33,6 +36,8 @@ public class PlayerPushBoxes : MonoBehaviour
         UpdateBoxVisual();
         HandleAttachOrDetach();
         PushPullAnimationHandler();
+        HandleDraggingSound();
+
     }
 
     void AutoDetach()
@@ -80,7 +85,7 @@ public class PlayerPushBoxes : MonoBehaviour
 
     void AttachBox()
     {
-        
+
         Rigidbody2D boxRb = currentBox.GetComponent<Rigidbody2D>();
 
         boxRb.mass = 10f;
@@ -107,7 +112,7 @@ public class PlayerPushBoxes : MonoBehaviour
 
         Rigidbody2D boxRb = currentBox.GetComponent<Rigidbody2D>();
         boxRb.mass = 100.0f;
-        
+
         currentBox = null;
         IsAttachedToBox = false;
         isDraggingBox = false;
@@ -167,6 +172,30 @@ public class PlayerPushBoxes : MonoBehaviour
         {
             animator.speed = 1f;
             animator.SetBool("isPulling", false); // Not interacting
+        }
+    }
+    void HandleDraggingSound()
+    {
+        if (IsAttachedToBox)
+        {
+            float horizontalInput = Mathf.Abs(Input.GetAxisRaw("Horizontal"));
+            bool isPlayerMoving = horizontalInput > 0.01f;
+
+            if (isPlayerMoving && !dragAudioSource.isPlaying)
+            {
+                dragAudioSource.Play();
+            }
+            else if (!isPlayerMoving && dragAudioSource.isPlaying)
+            {
+                dragAudioSource.Stop();
+            }
+        }
+        else
+        {
+            if (dragAudioSource.isPlaying)
+            {
+                dragAudioSource.Stop();
+            }
         }
     }
 }
