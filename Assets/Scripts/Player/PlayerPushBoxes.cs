@@ -103,7 +103,7 @@ public class PlayerPushBoxes : MonoBehaviour
         isDraggingBox = true;
     }
 
-    void DetachBox()
+    public void DetachBox()
     {
         if (joint != null)
         {

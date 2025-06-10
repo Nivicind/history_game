@@ -62,10 +62,22 @@ public class PauseMenuController : MonoBehaviour
         settingsUI.SetActive(false);
         // pauseMenuUI is still active
     }
-
+    
     public void RestartFromCheckpoint()
     {
         Time.timeScale = 1f;
+
+        // Detach box if player is attached
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            PlayerPushBoxes playerPushBoxes = player.GetComponent<PlayerPushBoxes>();
+            if (playerPushBoxes != null && playerPushBoxes.IsAttachedToBox)
+            {
+                playerPushBoxes.DetachBox();
+            }
+        }
+
         if (CheckpointManager.Instance != null)
         {
             CheckpointManager.Instance.Respawn();

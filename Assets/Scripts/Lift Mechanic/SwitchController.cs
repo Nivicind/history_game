@@ -15,27 +15,40 @@ public class SwitchController : MonoBehaviour
 
     [Header("Audio")]
     [SerializeField] private AudioSource liftAudioSource;
+
+    [Header("Sprites")]
+    [SerializeField] private Sprite normalSprite;
+    [SerializeField] private Sprite hoverSprite;
+
+    private SpriteRenderer switchRenderer;
     private BoxCollider2D liftCollider;
     private bool playerInRange = false;
 
     void Start()
     {
+        switchRenderer = GetComponent<SpriteRenderer>();
         liftCollider = lift.GetComponentInChildren<BoxCollider2D>();
+
+        if (switchRenderer == null)
+            Debug.LogWarning("No SpriteRenderer found on this object!");
         if (liftCollider == null)
             Debug.LogWarning("Lift child object has no BoxCollider2D!");
-
         if (switchAnimator == null)
-            Debug.LogWarning("Animator not assigned on switch!");
+            Debug.LogWarning("Animator not assigned!");
     }
 
     void Update()
     {
-        if (!playerInRange || liftCollider == null) return;
+        if (!playerInRange || liftCollider == null)
+        {
+            SwitchAnimationHandler(false, false);
+            HandleLiftSound(false);
+            return;
+        }
 
         HandleLiftMovement();
     }
 
-    // Refactored lift movement logic
     void HandleLiftMovement()
     {
         Vector2 currentPos = lift.transform.position;
@@ -87,7 +100,6 @@ public class SwitchController : MonoBehaviour
         HandleLiftSound(isTryingToMove);
     }
 
-
     void SwitchAnimationHandler(bool isMovingDown, bool isMovingUp)
     {
         if (switchAnimator == null) return;
@@ -95,16 +107,30 @@ public class SwitchController : MonoBehaviour
         if (isMovingDown)
         {
             switchAnimator.SetBool("IsSpinning", true);
-            switchAnimator.SetFloat("Speed", 1f); // Play forward
+            switchAnimator.SetFloat("Speed", 1f);
         }
         else if (isMovingUp)
         {
             switchAnimator.SetBool("IsSpinning", true);
-            switchAnimator.SetFloat("Speed", -1f); // Play in reverse
+            switchAnimator.SetFloat("Speed", -1f);
         }
         else
         {
             switchAnimator.SetBool("IsSpinning", false);
+        }
+    }
+
+    void HandleLiftSound(bool isTryingToMove)
+    {
+        if (isTryingToMove)
+        {
+            if (!liftAudioSource.isPlaying)
+                liftAudioSource.Play();
+        }
+        else
+        {
+            if (liftAudioSource.isPlaying)
+                liftAudioSource.Stop();
         }
     }
 
@@ -113,6 +139,7 @@ public class SwitchController : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             playerInRange = true;
+            UpdateSwitchSprite(true);
         }
     }
 
@@ -121,19 +148,17 @@ public class SwitchController : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             playerInRange = false;
+            SwitchAnimationHandler(false, false);
+            HandleLiftSound(false);
+            UpdateSwitchSprite(false);
         }
     }
-    void HandleLiftSound(bool isTryingToMove)
-{
-    if (isTryingToMove)
+
+    void UpdateSwitchSprite(bool isHovering)
     {
-        if (!liftAudioSource.isPlaying)
-            liftAudioSource.Play();
+        if (switchRenderer != null)
+        {
+            switchRenderer.sprite = isHovering ? hoverSprite : normalSprite;
+        }
     }
-    else
-    {
-        if (liftAudioSource.isPlaying)
-            liftAudioSource.Stop();
-    }
-}
 }
