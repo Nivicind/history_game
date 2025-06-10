@@ -307,7 +307,7 @@ Transform:
   m_GameObject: {fileID: 8422705}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.427199, y: 1, z: -10}
+  m_LocalPosition: {x: 3.4372902, y: 1, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3591,7 +3591,7 @@ Transform:
   m_GameObject: {fileID: 405148815}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 52.297413, y: 5, z: 0}
+  m_LocalPosition: {x: 52.307003, y: 5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4131,7 +4131,7 @@ Transform:
   m_GameObject: {fileID: 460797845}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 77.61575, y: 4, z: 0}
+  m_LocalPosition: {x: 77.62433, y: 4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4573,7 +4573,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!224 &496655802
 RectTransform:
@@ -5474,6 +5474,18 @@ PrefabInstance:
     - target: {fileID: 7638334871722062213, guid: 87855243047fcaf47b5c9d10eb7cfb19, type: 3}
       propertyPath: m_AnchorMin.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7954525024524664771, guid: 87855243047fcaf47b5c9d10eb7cfb19, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 8422710}
+    - target: {fileID: 7954525024524664771, guid: 87855243047fcaf47b5c9d10eb7cfb19, type: 3}
+      propertyPath: m_RenderMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7954525024524664771, guid: 87855243047fcaf47b5c9d10eb7cfb19, type: 3}
+      propertyPath: m_SortingOrder
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8538148801285671280, guid: 87855243047fcaf47b5c9d10eb7cfb19, type: 3}
       propertyPath: m_AnchorMax.x
@@ -7339,7 +7351,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -7865,7 +7877,7 @@ Transform:
   m_GameObject: {fileID: 926453948}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 102.99994, y: 4, z: 0}
+  m_LocalPosition: {x: 103.00749, y: 4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8398,7 +8410,7 @@ Transform:
   m_GameObject: {fileID: 974239686}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.013358474, y: 0, z: 0}
+  m_LocalPosition: {x: 0.008312821, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -8910,7 +8922,7 @@ Transform:
   m_GameObject: {fileID: 1024707843}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 36.547173, y: 4, z: 0}
+  m_LocalPosition: {x: 36.54868, y: 4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -9371,7 +9383,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -10523,8 +10535,6 @@ MonoBehaviour:
   detectionDistance: 0.05
   switchAnimator: {fileID: 1262166619}
   liftAudioSource: {fileID: 1262166622}
-  normalSprite: {fileID: 21300000, guid: da221bfef3eac5d40a91467f9c6299f9, type: 3}
-  hoverSprite: {fileID: 21300000, guid: ef26ca638c26ec84b9875a3fee4a4b1f, type: 3}
 --- !u!95 &1262166619
 Animator:
   serializedVersion: 5
@@ -10652,7 +10662,7 @@ AudioSource:
   m_GameObject: {fileID: 1262166616}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 9207850202523737455, guid: e4121aa7956095e418d73031e2ae449e, type: 2}
   m_audioClip: {fileID: 8300000, guid: f8b0220d1abf02a41a4f1524c1a744d9, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.5
@@ -13950,6 +13960,18 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: PauseMenuController, Assembly-CSharp
       objectReference: {fileID: 0}
+    - target: {fileID: 5425845475325019507, guid: 25219e88273d2424c8ed137929634287, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 8422710}
+    - target: {fileID: 5425845475325019507, guid: 25219e88273d2424c8ed137929634287, type: 3}
+      propertyPath: m_RenderMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5425845475325019507, guid: 25219e88273d2424c8ed137929634287, type: 3}
+      propertyPath: m_SortingOrder
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7891138539052874444, guid: 25219e88273d2424c8ed137929634287, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -14482,7 +14504,7 @@ Transform:
   m_GameObject: {fileID: 1626076754}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.005543529, y: 0, z: 0}
+  m_LocalPosition: {x: 0.0035252685, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -15608,7 +15630,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -19382,7 +19404,7 @@ AudioSource:
   m_GameObject: {fileID: 7273307208389205731}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 9207850202523737455, guid: e4121aa7956095e418d73031e2ae449e, type: 2}
   m_audioClip: {fileID: 8300000, guid: f8b0220d1abf02a41a4f1524c1a744d9, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.5
@@ -19522,8 +19544,6 @@ MonoBehaviour:
   detectionDistance: 0.05
   switchAnimator: {fileID: 2797648955263969147}
   liftAudioSource: {fileID: 4041484859132890385}
-  normalSprite: {fileID: 21300000, guid: da221bfef3eac5d40a91467f9c6299f9, type: 3}
-  hoverSprite: {fileID: 21300000, guid: ef26ca638c26ec84b9875a3fee4a4b1f, type: 3}
 --- !u!114 &5481558761374515221
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -16,35 +16,22 @@ public class SwitchController : MonoBehaviour
     [Header("Audio")]
     [SerializeField] private AudioSource liftAudioSource;
 
-    [Header("Sprites")]
-    [SerializeField] private Sprite normalSprite;
-    [SerializeField] private Sprite hoverSprite;
-
-    private SpriteRenderer switchRenderer;
     private BoxCollider2D liftCollider;
     private bool playerInRange = false;
 
     void Start()
     {
-        switchRenderer = GetComponent<SpriteRenderer>();
         liftCollider = lift.GetComponentInChildren<BoxCollider2D>();
-
-        if (switchRenderer == null)
-            Debug.LogWarning("No SpriteRenderer found on this object!");
         if (liftCollider == null)
             Debug.LogWarning("Lift child object has no BoxCollider2D!");
+
         if (switchAnimator == null)
-            Debug.LogWarning("Animator not assigned!");
+            Debug.LogWarning("Animator not assigned on switch!");
     }
 
     void Update()
     {
-        if (!playerInRange || liftCollider == null)
-        {
-            SwitchAnimationHandler(false, false);
-            HandleLiftSound(false);
-            return;
-        }
+        if (!playerInRange || liftCollider == null) return;
 
         HandleLiftMovement();
     }
@@ -139,7 +126,7 @@ public class SwitchController : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             playerInRange = true;
-            UpdateSwitchSprite(true);
+            switchAnimator.SetBool("IsHovering", true);
         }
     }
 
@@ -148,17 +135,9 @@ public class SwitchController : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             playerInRange = false;
+            switchAnimator.SetBool("IsHovering", false);
             SwitchAnimationHandler(false, false);
             HandleLiftSound(false);
-            UpdateSwitchSprite(false);
-        }
-    }
-
-    void UpdateSwitchSprite(bool isHovering)
-    {
-        if (switchRenderer != null)
-        {
-            switchRenderer.sprite = isHovering ? hoverSprite : normalSprite;
         }
     }
 }
